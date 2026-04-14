@@ -1,21 +1,61 @@
 package agenda.app;
 
 import agenda.dominio.Agenda;
+import agenda.dominio.GestorAgenda;
 
+/**
+ * Clase principal que ejecuta la aplicación de gestión de agenda.
+ */
 public class Main {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        //TODO: Crear una instancia de la clase Consola
-        //TODO: Crear una instancia de la clase Menu
-        //TODO: Crear una instancia de la clase Agenda
-        //TODO: Crear una instancia de la clase GestorAgenda
+		// Crear una instancia de la clase Consola (Singleton)
+		Consola consola = Consola.getInstance();
 
-        //TODO: Declarar una variable opcion
+		// Crear una instancia de la clase Menu
+		Menu menu = new Menu(consola);
 
-        //TODO: Realizar un bucle do-while para gestionar el menú de la aplicación (6 opciones, 0 para Salir)
-        //      Utilizad los métodos de las instancias que habéis generado previamente y la variable opcion
+		// Crear una instancia de la clase Agenda
+		Agenda agenda = new Agenda();
 
-        //TODO: Cerrar el recurso Scanner asociado a la entrada estándar (ver métodos de la clase Consola).
-    }
+		// Crear una instancia de la clase GestorAgenda
+		GestorAgenda gestor = new GestorAgenda(agenda, consola);
+
+		// Declarar una variable opcion
+		int opcion;
+
+		// Bucle do-while para gestionar el menú de la aplicación
+		do {
+			menu.mostrarMenu();
+			opcion = menu.leerOpcion();
+
+			switch (opcion) {
+			case 1:
+				gestor.crearContacto();
+
+			case 2:
+				gestor.listarContactos();
+
+			case 3:
+				gestor.buscarContactos();
+			case 4:
+				gestor.eliminarContacto();
+
+			case 5:
+				gestor.anadirTelefonoAContacto();
+
+			case 0:
+				consola.escribirLinea("\n¡Hasta pronto! Cerrando la agenda...");
+
+			default:
+				consola.escribirLinea("Opción no válida.");
+			}
+
+		} while (opcion != 0);
+
+		// Cerrar el recurso Scanner asociado a la entrada estándar
+		consola.cerrar();
+	}
+
 }
